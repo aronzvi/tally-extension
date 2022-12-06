@@ -5,10 +5,8 @@ tallyHoTest("dapp connect", async ({ page, context, extensionId }) => {
   const recoveryPhrase =
     "tilt ski leave code make fantasy rifle learn wash quiz youth inside promote garlic cat album tell pass between hub brush evolve staff imitate"
 
-  console.log(`chrome-extension://${extensionId}/popup.html`)
   await page.goto(`chrome-extension://${extensionId}/popup.html`)
-  //await expect(page.locator("body")).toHaveText("my-extension popup");
-
+  
   await page.locator("text=Continue").click()
   await page.locator("text=Continue").click()
   await page.locator("text=Import recovery phrase").click()

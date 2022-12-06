@@ -42,7 +42,7 @@ const config: PlaywrightTestConfig = {
     trace: "retain-on-failure",
 
     /* The trace will include screenshots so we don't need them */
-    //screenshot: 'only-on-failure',
+    // screenshot: 'only-on-failure',
 
     /* Setting video here does not work in our case. See https://github.com/microsoft/playwright/issues/11833 */
     // video: 'retain-on-failure',

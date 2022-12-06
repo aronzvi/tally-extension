@@ -36,13 +36,10 @@ export const tallyHoTest = base.extend<{
 })
 
 export async function createWallet(page: any, extensionId: any) {
-  console.log(`chrome-extension://${extensionId}/popup.html`)
   await page.goto(`chrome-extension://${extensionId}/popup.html`)
   // await expect(page.locator("body")).toHaveText("my-extension popup");
 
   const passwd = "VoXaXa!239"
-  const recoveryPhrase =
-    "tilt ski leave code make fantasy rifle learn wash quiz youth inside promote garlic cat album tell pass between hub brush evolve staff imitate"
 
   await page.locator("text=Continue").click()
   await page.locator("text=Continue").click()
@@ -76,17 +73,17 @@ export async function createWallet(page: any, extensionId: any) {
         });
 */
 
-  console.log(words)
+  // console.log(words)
   await page.locator("text=I wrote it down").click()
 
   const wordContainers = await page.locator(".word_index")
   const count = await wordContainers.count()
 
-  for (let i = 0; i < count; i++) {
+  for (let i = 0; i < count; i+=1) {
     const el = wordContainers.nth(i)
     const idx = parseInt((await el.allInnerTexts())[0]) - 1
     const word = words[idx]
-    console.log(idx, word)
+    // console.log(idx, word)
 
     // 1. gas, gasp... need exact text match
     // 2. a word can repeat multiple times - always return the first match
