@@ -35,7 +35,7 @@ export const tallyHoTest = base.extend<{
   },
 })
 
-export async function createWallet(page: any, extensionId: any) {
+export async function createWallet(page: any, extensionId: string): Promise<void> {
   await page.goto(`chrome-extension://${extensionId}/popup.html`)
   // await expect(page.locator("body")).toHaveText("my-extension popup");
 
@@ -53,7 +53,7 @@ export async function createWallet(page: any, extensionId: any) {
 
   await page.locator("text=Reveal my secret recovery phrase").click()
 
-  function extractWords(wordsHtml: any) {
+  function extractWords(wordsHtml: string) {
     return wordsHtml
       .replace(/<[^>]*>?/gm, " ")
       .trim()
