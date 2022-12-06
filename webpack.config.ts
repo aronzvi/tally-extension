@@ -34,7 +34,7 @@ const baseConfig: Configuration = {
     rules: [
       {
         test: /\.(tsx|ts|jsx)?$/,
-        exclude: /node_modules(?!\/@tallyho)|webpack/,
+        exclude: /node_modules(?!\/@tallyho)|webpack/|e2e/,
         use: [
           {
             loader: "babel-loader",
