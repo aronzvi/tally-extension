@@ -55,7 +55,7 @@ export const tallyHoTest = base.extend<{
 
     await page.locator('text=Reveal my secret recovery phrase').click();
 
-    function extractWords(wordsHtml) {
+    function extractWords(wordsHtml: any) {
       return wordsHtml
         .replace(/<[^>]*>?/gm, ' ')
         .trim()
