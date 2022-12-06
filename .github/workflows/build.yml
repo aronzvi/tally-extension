@@ -117,7 +117,7 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: extension-builds-${{ github.event.number || github.event.head_commit.id }}
-      - name: Extract extention
+      - name: Extract extension
         run: unzip -o chrome.zip -d dist/chrome
       - name: Run Playwright tests
         run: xvfb-run npx playwright test
