@@ -1,12 +1,12 @@
-import { test as base, BrowserContext, chromium } from "@playwright/test"
-import path from "path"
+import { test as base, BrowserContext, chromium } from "@playwright/test";
+import path from "path";
 
 export const tallyHoTest = base.extend<{
-  context: BrowserContext
-  extensionId: string
+  context: BrowserContext;
+  extensionId: string;
 }>({
   context: async ({}, use) => {
-    const pathToExtension = path.resolve(__dirname, "../dist/chrome")
+    const pathToExtension = path.resolve(__dirname, "../dist/chrome");
     const context = await chromium.launchPersistentContext("", {
       // set to some path in order to store browser session data
       headless: false,
@@ -14,14 +14,14 @@ export const tallyHoTest = base.extend<{
         `--disable-extensions-except=${pathToExtension}`,
         `--load-extension=${pathToExtension}`,
       ],
-    })
-    await use(context)
-    await context.close()
+    });
+    await use(context);
+    await context.close();
   },
   extensionId: async ({ context }, use) => {
     // for manifest v2:
-    let [background] = context.backgroundPages()
-    if (!background) background = await context.waitForEvent("backgroundpage")
+    let [background] = context.backgroundPages();
+    if (!background) background = await context.waitForEvent("backgroundpage");
 
     /*
       // for manifest v3:
@@ -30,42 +30,42 @@ export const tallyHoTest = base.extend<{
         background = await context.waitForEvent("serviceworker");
       */
 
-    const extensionId = background.url().split("/")[2]
-    await use(extensionId)
+    const extensionId = background.url().split("/")[2];
+    await use(extensionId);
   },
-})
+});
 
 export async function createWallet(page: any, extensionId: any) {
-  console.log(`chrome-extension://${extensionId}/popup.html`)
-  await page.goto(`chrome-extension://${extensionId}/popup.html`)
+  console.log(`chrome-extension://${extensionId}/popup.html`);
+  await page.goto(`chrome-extension://${extensionId}/popup.html`);
   // await expect(page.locator("body")).toHaveText("my-extension popup");
 
-  const passwd = "VoXaXa!239"
+  const passwd = "VoXaXa!239";
   const recoveryPhrase =
-    "tilt ski leave code make fantasy rifle learn wash quiz youth inside promote garlic cat album tell pass between hub brush evolve staff imitate"
+    "tilt ski leave code make fantasy rifle learn wash quiz youth inside promote garlic cat album tell pass between hub brush evolve staff imitate";
 
-  await page.locator("text=Continue").click()
-  await page.locator("text=Continue").click()
+  await page.locator("text=Continue").click();
+  await page.locator("text=Continue").click();
 
-  await page.locator("text=Create new wallet").click()
+  await page.locator("text=Create new wallet").click();
 
-  await page.locator("input").first().type(passwd)
-  await page.locator("input").last().type(passwd)
+  await page.locator("input").first().type(passwd);
+  await page.locator("input").last().type(passwd);
 
-  await page.locator("text=Begin the hunt").click()
+  await page.locator("text=Begin the hunt").click();
 
-  await page.locator("text=Reveal my secret recovery phrase").click()
+  await page.locator("text=Reveal my secret recovery phrase").click();
 
   function extractWords(wordsHtml: any) {
     return wordsHtml
       .replace(/<[^>]*>?/gm, " ")
       .trim()
-      .split(" ")
+      .split(" ");
   }
 
-  const wordsDivs = await page.locator("div.column.words")
-  let words = extractWords(await wordsDivs.nth(0).innerHTML())
-  words = words.concat(extractWords(await wordsDivs.nth(1).innerHTML()))
+  const wordsDivs = await page.locator("div.column.words");
+  let words = extractWords(await wordsDivs.nth(0).innerHTML());
+  words = words.concat(extractWords(await wordsDivs.nth(1).innerHTML()));
 
   /*
     const words = await page.$$eval('.column.words', word_divs => {
@@ -76,23 +76,23 @@ export async function createWallet(page: any, extensionId: any) {
         });
 */
 
-  console.log(words)
-  await page.locator("text=I wrote it down").click()
+  console.log(words);
+  await page.locator("text=I wrote it down").click();
 
-  const wordContainers = await page.locator(".word_index")
-  const count = await wordContainers.count()
+  const wordContainers = await page.locator(".word_index");
+  const count = await wordContainers.count();
 
   for (let i = 0; i < count; i++) {
-    const el = wordContainers.nth(i)
-    const idx = parseInt((await el.allInnerTexts())[0]) - 1
-    const word = words[idx]
-    console.log(idx, word)
+    const el = wordContainers.nth(i);
+    const idx = parseInt((await el.allInnerTexts())[0]) - 1;
+    const word = words[idx];
+    console.log(idx, word);
 
     // 1. gas, gasp... need exact text match
     // 2. a word can repeat multiple times - always return the first match
-    await page.locator(`button.small :text("${word}")`).nth(0).click()
+    await page.locator(`button.small :text("${word}")`).nth(0).click();
   }
 
-  await page.locator("text=Verify recovery phrase").click()
-  await page.locator("text=Take me to my wallet").click()
+  await page.locator("text=Verify recovery phrase").click();
+  await page.locator("text=Take me to my wallet").click();
 }
