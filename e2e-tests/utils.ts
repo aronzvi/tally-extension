@@ -79,9 +79,9 @@ export async function createWallet(page: any, extensionId: any) {
   const wordContainers = await page.locator(".word_index")
   const count = await wordContainers.count()
 
-  for (let i = 0; i < count; i+=1) {
+  for (let i = 0; i < count; i += 1) {
     const el = wordContainers.nth(i)
-    const idx = parseInt((await el.allInnerTexts())[0]) - 1
+    const idx = parseInt((await el.allInnerTexts())[0], 10) - 1
     const word = words[idx]
     // console.log(idx, word)
 
