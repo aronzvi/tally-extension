@@ -1,4 +1,4 @@
-import { test as base, BrowserContext, chromium } from "@playwright/test"
+import { test as base, BrowserContext, chromium, Page } from "@playwright/test"
 import path from "path"
 
 export const tallyHoTest = base.extend<{
@@ -35,7 +35,10 @@ export const tallyHoTest = base.extend<{
   },
 })
 
-export async function createWallet(page: any, extensionId: string): Promise<void> {
+export async function createWallet(
+  page: Page,
+  extensionId: string
+): Promise<void> {
   await page.goto(`chrome-extension://${extensionId}/popup.html`)
   // await expect(page.locator("body")).toHaveText("my-extension popup");
 
