@@ -36,7 +36,7 @@ tallyHoTest("dapp connect", async ({ page, context, extensionId }) => {
   await popupPage.locator('button', { hasText: 'Connect' }).click();
 
   await page.bringToFront();
-  await page.locator('text=settings').click();
+  await page.locator('text="Settings"').click();
   await page.locator('text=Connected websites').click();
 
   // The timeouts are here only to pause and show that we are connected/disconnected and can be removed
