@@ -5,7 +5,7 @@ export const tallyHoTest = base.extend<{
   context: BrowserContext
   extensionId: string
 }>({
-  context: async ({}, use) => {
+  context: async (_, use) => {
     const pathToExtension = path.resolve(__dirname, "../dist/chrome")
     const context = await chromium.launchPersistentContext("", {
       // set to some path in order to store browser session data
@@ -82,6 +82,7 @@ export async function createWallet(
   const wordContainers = await page.locator(".word_index")
   const count = await wordContainers.count()
 
+  /* eslint-disable no-await-in-loop */
   for (let i = 0; i < count; i += 1) {
     const el = wordContainers.nth(i)
     const idx = parseInt((await el.allInnerTexts())[0], 10) - 1
@@ -92,7 +93,8 @@ export async function createWallet(
     // 2. a word can repeat multiple times - always return the first match
     await page.locator(`button.small :text("${word}")`).nth(0).click()
   }
-
+  /* eslint-enable no-await-in-loop */
+  
   await page.locator("text=Verify recovery phrase").click()
   await page.locator("text=Take me to my wallet").click()
 }
