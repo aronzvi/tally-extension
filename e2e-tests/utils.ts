@@ -94,7 +94,6 @@ export async function createWallet(
     await page.locator(`button.small :text("${word}")`).nth(0).click()
   }
   /* eslint-enable no-await-in-loop */
-  
   await page.locator("text=Verify recovery phrase").click()
   await page.locator("text=Take me to my wallet").click()
 }
