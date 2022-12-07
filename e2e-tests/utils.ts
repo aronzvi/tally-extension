@@ -5,7 +5,8 @@ export const tallyHoTest = base.extend<{
   context: BrowserContext
   extensionId: string
 }>({
-  context: async (_, use) => {
+  /* eslint-disable-next-line no-empty-pattern */
+  context: async ({}, use) => {
     const pathToExtension = path.resolve(__dirname, "../dist/chrome")
     const context = await chromium.launchPersistentContext("", {
       // set to some path in order to store browser session data
